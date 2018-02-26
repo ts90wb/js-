@@ -1,0 +1,143 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0, maximum-scale = 1.0, minimum-scale = 1.0, user-scalable = no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Document </title>
+
+</head>
+
+<body>
+    <form action="" method="post" id="form">
+        请输入电话号码: <input type="text" id="mobi" value="" placeholder="请输入电话号码">
+        <input type="submit">
+    </form>
+
+</body>
+<script>
+    //1.字符串转驼峰方法 例如  border-bottom-color
+    function hump(str) {
+        str = str.replace(/-[a-z]/g, function(param) {
+            return param.charAt(1).toUpperCase();
+        })
+        return str;
+    }
+    console.log(hump('border-bottom-color'));
+
+    //2.查找字符串中出现最多的字符和个数
+    //方法一
+    function findMax1(str) {
+        var maxObj = {
+            maxWord: null,
+            maxCount: null
+        };
+        var count = 0;
+
+        while (str) {
+            var i = 0,
+                currentWord = str[0],
+                strReg = new RegExp(str[0], 'g');
+            str = str.replace(strReg, function(param) {
+                i++;
+                return '';
+            });
+            if (i > count) {
+                maxObj.maxWord = currentWord;
+                maxObj.maxCount = count = i;
+            }
+
+        }
+        return maxObj;
+    }
+    console.log(findMax2('aaabbbbbby'));
+    //方法二
+    function findMax2(str) {
+        var maxObj = {
+            maxWord: null,
+            maxCount: null
+        };
+        var obj = {},
+            len = str.length;
+        for (var i = 0; i < len; i++) {
+            if (!obj[str[i]]) {
+                obj[str[i]] = 1;
+            } else {
+                obj[str[i]]++;
+            }
+        }
+        var count = 0;
+        for (var key in obj) {
+            if (obj[key] > count) {
+                maxObj.maxWord = key;
+                maxObj.maxCount = count = obj[key];
+            }
+        }
+        return maxObj;
+    }
+    //================================================================
+    //给字符串加千分符
+    //方法一
+    function groupByCommas1(n) {
+        return n.toString().replace(/(?=(\d{3})+(?!\d))/g, ',');
+    }
+    console.log(groupByCommas2(12234444));
+    //方法二
+    function groupByCommas2(n) {
+        var str = n.toString();
+        var len = str.length;
+        var newStr = '';
+        for (var i = len; i > 0; i--) {
+            newStr += str.charAt(i - 1);
+            if (i % 3 == 0) {
+                newStr += ',';
+            }
+        }
+        newStr = newStr.split('').reverse().join('');
+        return newStr;
+    }
+    //============================================================
+    //验证是否是对称单词
+    function symmetry(str) {
+
+        return str == str.split('').reverse().join('') ? true : false;
+    }
+    console.log(symmetry('weoew'));
+
+    //表单验证
+    (function() {
+        var form = document.getElementById('form');
+        form.onsubmit = function() {
+            var mobi = document.getElementById('mobi');
+            var reg = /^1[35789]\d{9}$/;
+            if (reg.test(mobi.value.replace(/ /g, ''))) {
+                alert('ok');
+            } else {
+                alert('输入错误');
+                return false;
+            }
+        }
+    })();
+    console.log('%c一段文字\n', 'color:red');
+
+    //============================================
+    //正则分解a超链接
+    (function() {
+        var str = '<a href="www.baidu.com">百度</a><a href="www.baidu.com">百度2</a><a href="www.baidu.com">百度3</a>';
+        var reg = /<a href=([\"\'])([^\"\']+)([\"\'])>([^\"\']+)<\/a>/g;
+        var arr = [];
+        while (true) {
+            reg.test(str);
+            if (reg.lastIndex == 0) break;
+            arr.push({
+                name: RegExp.$4,
+                url: RegExp.$2
+            });
+        }
+        console.log(arr);
+
+    })();
+</script>
+
+</html>
