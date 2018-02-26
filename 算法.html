@@ -1,0 +1,166 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0, maximum-scale = 1.0, minimum-scale = 1.0, user-scalable = no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Document </title>
+
+</head>
+
+<body>
+
+</body>
+<script>
+    //不借助临时变量,进行两个整数的交换
+    function swap(a, b) {
+        b = b - a;
+        a = b + a;
+        b = a - b;
+
+        return [a, b];
+    }
+    console.log(swap(3, 4));
+
+    //=================================================================
+    //判断单词是否为回文
+    function checkLoop(str) {
+        return str == str.split('').reverse().join('');
+    }
+
+    //===================================================================
+    //统计一个字符串中出现最多的字符
+    function findMaxDuplicate(str) {
+        if (str.length == 1) {
+            return [str, 1];
+        }
+        var len = str.length,
+            charObj = {};
+        for (var i = 0; i < len; i++) {
+            if (!charObj[str[i]]) {
+                charObj[str[i]] = 1;
+            } else {
+                charObj[str[i]] += 1;
+            }
+        }
+        var maxValue = 1,
+            maxChar = '';
+        for (var k in charObj) {
+            if (charObj[k] >= maxValue) {
+                maxChar = k;
+                maxValue = charObj[k];
+            }
+        }
+        return [maxChar, maxValue]
+    }
+    console.log(findMaxDuplicate('jsffff'));
+
+    //=======================================================
+    //排序  
+    // 1.冒泡排序
+    function bubbleSort(arr) {
+        for (var i = 0, len = arr.length; i < len - 1; i++) {
+            for (var j = i + 1; j < len; j++) {
+                if (arr[i] > arr[j]) {
+                    arr[j] = arr[j] - arr[i];
+                    arr[i] = arr[j] + arr[i];
+                    arr[j] = arr[i] - arr[j];
+                    // var flag = arr[j];
+                    // arr[j] = arr[i];
+                    // arr[i] = flag;
+                }
+            }
+        }
+        return arr;
+
+    }
+    console.log(bubbleSort([1, 4, 2, 5, 6]));
+
+    //2.快速排序
+    function quickSort(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+        let leftArr = [],
+            rightArr = [];
+        for (var i = 1, len = arr.length; i < len; i++) {
+            if (arr[i] > arr[0]) {
+                rightArr.push(arr[i]);
+            } else {
+                leftArr.push(arr[i]);
+            }
+        }
+        // return [].concat(quickSort(leftArr),arr[0], quickSort(rightArr));
+        return [...quickSort(leftArr), arr[0], ...quickSort(rightArr)];
+    }
+    console.log(quickSort([1, 4, 2, 5, 6]));
+
+
+    //3.插入排序
+    function insertionSort(arr) {
+        if (arr.length <= 1) {
+            return arr;
+        }
+
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var key = arr[i],
+                j = i - 1;
+            while (arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+        return arr;
+    }
+    console.log(insertionSort([1, 4, 2, 7, 6]));
+
+    //生成斐波那契数列
+    function fiboArr(n) {
+        var fibo = [];
+        for (var i = 0; i < n; i++) {
+            if (i <= 1) {
+                fibo.push(i);
+            } else {
+                fibo.push(fibo[i - 1] + fibo[i - 2]);
+            }
+        }
+        return fibo;
+    }
+    console.log(fiboArr(10));
+
+
+    //============================================
+    //数组中最大跟最小数的差值
+    function maxProfit(arr) {
+        var minNum = arr[0],
+            maxNum = 0;
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var current = arr[i];
+            minNum = Math.min(current, minNum);
+            var result = current - minNum;
+            maxNum = Math.max(maxNum, result);
+        }
+        // var maxNum = Math.max.apply(null, arr) - Math.min.apply(null, arr);
+        return maxNum;
+    }
+    console.log(maxProfit([1, 23, 4, 5, 8]));
+
+    //===============================================
+    //随机生成指定长度的字符串
+
+    function randomStr(n) {
+        var str = 'abcdefghijklmnopqrstuvwxyz9876543210',
+            len = str.length;
+        var tem = '';
+        for (var i = 0; i < n; i++) {
+            var index = Math.floor(Math.random() * len);
+            tem += str[index];
+        }
+        return tem;
+    }
+    console.log(randomStr(10));
+</script>
+
+</html>
